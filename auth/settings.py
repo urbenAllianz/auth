@@ -87,10 +87,10 @@ WSGI_APPLICATION = 'auth.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('PGDATABASE', 'neondb'),
-        'USER': os.getenv('PGUSER', 'neondb_owner'),
-        'PASSWORD': os.getenv('PGPASSWORD', 'TCh6XmoM5LyF'),
-        'HOST': os.getenv('PGHOST', 'ep-red-dawn-a1f956ak-pooler.ap-southeast-1.aws.neon.tech'),
+        'NAME': 'neondb',
+        'USER': 'neondb_owner',
+        'PASSWORD': 'TCh6XmoM5LyF',
+        'HOST': 'ep-red-dawn-a1f956ak-pooler.ap-southeast-1.aws.neon.tech',
         'PORT': '5432',  # default PostgreSQL port
         'OPTIONS': {
             'sslmode': 'require',  # Ensures SSL connection
@@ -134,8 +134,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
