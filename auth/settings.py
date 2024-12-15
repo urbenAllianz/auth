@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,23 +75,29 @@ WSGI_APPLICATION = 'auth.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# import os
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('PGDATABASE', 'neondb'),
+        'USER': os.getenv('PGUSER', 'neondb_owner'),
+        'PASSWORD': os.getenv('PGPASSWORD', 'TCh6XmoM5LyF'),
+        'HOST': os.getenv('PGHOST', 'ep-red-dawn-a1f956ak-pooler.ap-southeast-1.aws.neon.tech'),
+        'PORT': '5432',  # default PostgreSQL port
+        'OPTIONS': {
+            'sslmode': 'require',  # Ensures SSL connection
+        },
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'fomic',       # Database name
-#         'USER': 'pires',       # Database username
-#         'PASSWORD': 'death the kid 2',  # Database password
-#         'HOST': 'localhost',          # Database host, often 'localhost'
-#         'PORT': '5432',               # Default PostgreSQL port
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
