@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row flex-nowrap">
+      <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+          <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none h4">
+            <span class="d-none d-sm-inline">EVgo charge</span>
+          </a>
+          <hr />
+          
+          <!-- Dropdown du profil de l'utilisateur -->
+          <div class="dropdown pb-4">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <!-- Afficher l'image du profil de l'utilisateur -->
+                <img src="{{ 'https://github.com/mdo.png' }}" alt="Utilisateur" width="30" height="30" class="rounded-circle" />
+                
+                <!-- Afficher le nom complet de l'utilisateur ou son nom d'utilisateur -->
+                <span class="d-none d-sm-inline mx-1">{{ request.user.get_full_name|default:request.user.username }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                <li>
+                    <a class="dropdown-item" href="{% url 'user_profile' %}">Profil</a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider" />
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Se déconnecter</a>
+                </li>
+            </ul>
+          </div>
+        
+          <!-- Menu de navigation -->
+          <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+            <!-- Menu Accueil -->
+            <li class="nav-item">
+              <a href="/" class="nav-link align-middle px-0"><i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Accueil</span></a>
+            </li>
+
+            <!-- Liens directs -->
+            <li class="nav-item">
+              <a href="#" class="nav-link align-middle px-0"><i class="fs-4 bi-info-circle"></i> <span class="ms-1 d-none d-sm-inline">À propos de nous</span></a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link align-middle px-0"><i class="fs-4 bi-briefcase"></i> <span class="ms-1 d-none d-sm-inline">Services</span></a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link align-middle px-0"><i class="fs-4 bi-pencil"></i> <span class="ms-1 d-none d-sm-inline">Blog</span></a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link align-middle px-0"><i class="fs-4 bi-envelope"></i> <span class="ms-1 d-none d-sm-inline">Contact</span></a>
+            </li>
+
+            <!-- Menu Admin (visible seulement pour les utilisateurs administrateurs) -->
+            {% if request.user.is_staff %}
+              <li class="nav-item">
+                <a href="users/" class="nav-link align-middle px-0"><i class="fs-4 bi-shield-lock"></i> <span class="ms-1 d-none d-sm-inline">Gestion de utilisateur</span></a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Contenu principal -->
+      <div class="col py-3">
+        {% block body %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

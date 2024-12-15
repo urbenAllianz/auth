@@ -1,0 +1,19 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4>Bienvenue, {{ request.user.get_full_name|default:request.user.username }} !</h4>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">
+                Votre compte est actuellement en cours de validation. Veuillez patienter jusqu'à ce qu'il soit approuvé avant de pouvoir accéder à d'autres fonctionnalités. 
+                Vous serez notifié une fois que votre compte sera validé.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
