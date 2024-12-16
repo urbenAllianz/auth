@@ -14,12 +14,17 @@
     {% endif %}
 
     <!-- User Information Display -->
-    <div class="user-info">
-      <p><strong>First Name:</strong> {{ user.first_name }}</p>
-      <p><strong>Last Name:</strong> {{ user.last_name }}</p>
-      <p><strong>Email:</strong> {{ user.email }}</p>
-      
-      <!-- Edit Button -->
+    <div class="card mx-auto mt-4" style="max-width: 600px;">
+      <div class="card-body text-center">
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
+      </div>
+    </div>
+
+    <!-- Edit Button -->
+    <div class="text-center mt-3">
       <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
     </div>
 
@@ -33,21 +38,28 @@
           </div>
           <div class="modal-body">
             <!-- Profile Edit Form -->
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
               {% csrf_token %}
-              <div class="form-group">
+              
+              <div class="form-group mb-3">
                 <label for="first_name">First Name</label>
                 <input type="text" name="first_name" class="form-control" id="first_name" value="{{ form.first_name.value }}">
               </div>
-              <div class="form-group">
+
+              <div class="form-group mb-3">
                 <label for="last_name">Last Name</label>
                 <input type="text" name="last_name" class="form-control" id="last_name" value="{{ form.last_name.value }}">
               </div>
-              <div class="form-group">
+
+              <div class="form-group mb-3">
                 <label for="email">Email</label>
                 <input type="email" name="email" class="form-control" id="email" value="{{ form.email.value }}">
               </div>
 
+              <div class="form-group mb-3">
+                <label for="phone_number">Phone Number</label>
+                <input type="text" name="phone_number" class="form-control" id="phone_number" value="{{ form.phone_number.value }}">
+              </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Save changes</button>

@@ -1,30 +1,20 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from .models import CustomUser as User
 from django.core.validators import MinLengthValidator
 
 class CustomUserCreationForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}), initial='')
     last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}), initial='')
     username = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}), initial='')
+    phone_number = forms.CharField(max_length=15,required=True,widget=forms.TextInput(attrs={'class': 'form-control'}),label="Phone Number", initial='')
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}), initial='')
-    password1 = forms.CharField(
-        required=True,
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
-        label="Password",
-        initial='',
-        validators=[MinLengthValidator(6)]  # Enforces minimum length of 6 characters
-    )
-    password2 = forms.CharField(
-        required=True,
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
-        label="Confirm Password",
-        initial=''
-    )
+    password1 = forms.CharField(required=True,widget=forms.PasswordInput(attrs={'class': 'form-control'}),label="Password",initial='',validators=[MinLengthValidator(6)])
+    password2 = forms.CharField(required=True,widget=forms.PasswordInput(attrs={'class': 'form-control'}),label="Confirm Password",initial='')
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+        fields = ['username', 'first_name', 'last_name', 'email', 'phone_number', 'password1', 'password2']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
@@ -46,6 +36,17 @@ class CustomUserCreationForm(UserCreationForm):
             if password1 != password2:
                 raise forms.ValidationError("Password and Confirm Password do not match.")
         return cleaned_data
+    
+    def clean_password1(self):
+        password = self.cleaned_data.get('password1')
+
+        # Optional: If you want to enforce a minimum length, you can include this
+        if len(password) < 6:
+            raise forms.ValidationError("Password must be at least 6 characters long.")
+
+        # No additional rules - passwords like '123456' or 'password' are valid
+        return password
+
 
 
 class UserProfileForm(forms.ModelForm):

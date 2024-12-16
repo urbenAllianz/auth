@@ -1,19 +1,19 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.core.validators import RegexValidator
 
-class CustomUserInfo(models.Model):
-    email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    password = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)  # For admin permissions
-    date_joined = models.DateTimeField(auto_now_add=True)
-
-    # def set_password(self, password):
-    #     self.password = make_password(password)
-
-    # def check_password(self, raw_password):
-    #     return check_password(raw_password, self.password)
+class CustomUser(AbstractUser):
+    phone_number = models.CharField(
+        max_length=15,
+        unique=True,
+        validators=[
+            RegexValidator(
+                regex=r'^\+?1?\d{9,15}$',
+                message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
+            )
+        ],
+        help_text="Enter a valid phone number, including the country code."
+    )
 
     def __str__(self):
-        return self.email
+        return self.username

@@ -42,6 +42,13 @@
                 {% endfor %}
               </div>
               <div class="mb-3">
+                <label for="phone_number" class="form-label">Phone Number</label>
+                <input type="text" class="form-control {% if form.phone_number.errors %}is-invalid{% endif %}" id="phone_number" name="phone_number" value="{{ form.phone_number.value }}" required />
+                {% for error in form.phone_number.errors %}
+                  <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+              </div>
+              <div class="mb-3">
                 <label for="password1" class="form-label">Password</label>
                 <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" id="password1" name="password1" required />
                 {% for error in form.password1.errors %}

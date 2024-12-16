@@ -86,7 +86,6 @@ WSGI_APPLICATION = 'auth.wsgi.application'
 #     }
 # }
 
-# import os
 
 DATABASES = {
     'default': {
@@ -144,3 +143,8 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login/'
+
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+AUTH_PASSWORD_VALIDATORS = []

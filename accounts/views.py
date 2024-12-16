@@ -4,11 +4,11 @@ from django.contrib.auth import login, authenticate , logout
 from .forms import CustomUserCreationForm
 import logging
 from django.core.paginator import Paginator
-from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserProfileForm
+from . models import CustomUser as User
 
 @login_required
 def user_profile(request):
@@ -33,7 +33,7 @@ def user_list(request):
     search_query = request.GET.get('search', '')
     
     # Filter users based on search query (you can adjust the fields you want to search)
-    users = User.objects.filter(username__icontains=search_query)
+    users = User.objects.filter(username__icontains=search_query).order_by('-date_joined')
     
     # Set up pagination
     paginator = Paginator(users, 10)  # Show 10 users per page
