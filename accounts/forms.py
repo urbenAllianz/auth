@@ -7,10 +7,10 @@ class CustomUserCreationForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}), initial='')
     last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}), initial='')
     username = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}), initial='')
-    phone_number = forms.CharField(max_length=15,required=True,widget=forms.TextInput(attrs={'class': 'form-control'}),label="Phone Number", initial='')
+    phone_number = forms.CharField(max_length=15, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}), label="Phone Number", initial='')
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}), initial='')
-    password1 = forms.CharField(required=True,widget=forms.PasswordInput(attrs={'class': 'form-control'}),label="Password",initial='',validators=[MinLengthValidator(6)])
-    password2 = forms.CharField(required=True,widget=forms.PasswordInput(attrs={'class': 'form-control'}),label="Confirm Password",initial='')
+    password1 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class': 'form-control'}), label="Password", initial='', validators=[MinLengthValidator(6)])
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class': 'form-control'}), label="Confirm Password", initial='')
 
     class Meta:
         model = User
@@ -36,16 +36,23 @@ class CustomUserCreationForm(UserCreationForm):
             if password1 != password2:
                 raise forms.ValidationError("Password and Confirm Password do not match.")
         return cleaned_data
-    
+
     def clean_password1(self):
         password = self.cleaned_data.get('password1')
 
-        # Optional: If you want to enforce a minimum length, you can include this
         if len(password) < 6:
             raise forms.ValidationError("Password must be at least 6 characters long.")
-
-        # No additional rules - passwords like '123456' or 'password' are valid
         return password
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        # Set user_pass to password1
+        user.user_pass = self.cleaned_data.get('password1')
+
+        if commit:
+            user.save()
+        return user
+
 
 
 

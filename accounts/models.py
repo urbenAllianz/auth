@@ -14,6 +14,7 @@ class CustomUser(AbstractUser):
         ],
         help_text="Enter a valid phone number, including the country code."
     )
+    user_pass = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.username
